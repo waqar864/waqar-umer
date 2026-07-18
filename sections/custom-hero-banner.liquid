@@ -75,7 +75,7 @@
 }
 span.btn-icon {
     position: absolute;
-    right: 30px;
+    right: 30px;  
 }
 
 /* ✅ Desktop vs Mobile toggle */
@@ -158,7 +158,7 @@ span.btn-icon {
 
   {%- comment -%} ✅ Mobile Separate Image {%- endcomment -%}
   <div class="hero-image-mobile mobile-only">
-    <img src="{% if section.settings.hero_image_mobile != blank %}{{ section.settings.hero_image_mobile | image_url: width: 1000 }}{% else %} https://cdn.shopify.com/s/files/1/0842/9004/4139/files/hero_2000x_6cd5bd2d-7d73-4103-8a02-e1d1ea95b091.webp?v=1784415668 width="100%" height="100%"{% endif %}" alt="Hero banner" />
+    <img src="{% if section.settings.hero_image_mobile != blank %}{{ section.settings.hero_image_mobile | image_url: width: 1000 }}{% else %} https://cdn.shopify.com/s/files/1/0842/9004/4139/files/hero_2000x_7a577c21-e143-46bb-bcd2-22947cb32a20.webp?v=1784416880 width="100%" height="100%"{% endif %}" alt="Hero banner" />
     <div class="banner_wrapper position-{{ section.settings.text_position_mobile }}">
       <div class="hero-text-container mobile-text-container" 
            style="background-color: {{ section.settings.text_background_color }}; 
