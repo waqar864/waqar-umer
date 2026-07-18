@@ -1,0 +1,307 @@
+<style>
+    .hero-text-container .hero-button:hover {
+    background: #fff544 !important;
+    color: #000 !important;
+}
+.popup-atc:hover span.btn-icon svg path {
+    fill: #000 !important;
+}
+.custom-hero-banner {
+  position: relative;
+  width: 100%;
+}
+
+.hero-image {
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+}
+
+.banner_wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 2rem;
+}
+
+/* ✅ Position Controls (matches schema) */
+.position-top-left      { justify-content: flex-start; align-items: flex-start; }
+.position-top-center    { justify-content: center;     align-items: flex-start; }
+.position-top-right     { justify-content: flex-end;   align-items: flex-start; }
+
+.position-center-left   { justify-content: flex-start; align-items: center; }
+.position-center        { justify-content: center;     align-items: center; }
+.position-center-right  { justify-content: flex-end;   align-items: center; }
+
+.position-bottom-left   { justify-content: flex-start; align-items: flex-end; }
+.position-bottom-center { justify-content: center;     align-items: flex-end; }
+.position-bottom-right  { justify-content: flex-end;   align-items: flex-end; }
+
+
+.hero-text-container {
+  max-width: 535px;
+  padding: 1.5rem 2rem;
+  /* border-radius: 10px; */
+}
+
+.hero-text-container h1 {
+  font-size: clamp(22px, 5vw, 54px);
+      font-weight: 500;
+      line-height: 100%;
+    letter-spacing: 0px;
+    vertical-align: middle;
+  margin-bottom: 0.5rem;
+}
+
+.hero-text-container p {
+  font-size: clamp(16px, 2.5vw, 22px);
+  margin-bottom: 3rem;
+  line-height: 140%;
+    letter-spacing: 0px;
+    vertical-align: middle;
+}
+
+.hero-text-container .hero-button {
+    width: 220px;
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  /* border-radius: 5px; */
+  text-decoration: none;
+  font-size: clamp(14px, 2vw, 18px);
+  position: relative;
+}
+span.btn-icon {
+    position: absolute;
+    right: 30px;
+}
+
+/* ✅ Desktop vs Mobile toggle */
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+  .mobile-only { 
+    display: flex;
+    flex-flow: column;
+    flex-direction: column-reverse;
+    position: relative;
+   }
+   .banner_wrapper.position- {
+    position: absolute;
+    padding: 0px;
+}
+  
+  .hero-image-mobile img {
+    width: 100%;
+    display: block;
+  }
+
+  .banner_wrapper {
+    display: flex;
+    padding: 1rem;
+    width: 100%;
+  }
+.hero-text-container.mobile-text-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+}
+.mobile_container_top {
+    background: #fff;
+    padding: 3rem;
+    text-align: center;
+}
+.hero-text-container.mobile-text-container a.hero-button.popup-atc {
+    margin-bottom: 4rem;
+}
+  /* separate mobile positions */
+  .position-left   { justify-content: flex-start; }
+  .position-right  { justify-content: flex-end; }
+  .position-center { justify-content: center; }
+  .position-top    { justify-content: center; align-items: flex-start; }
+  .position-bottom { justify-content: center; align-items: flex-end; }
+
+  .hero-text-container {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+</style>
+
+<section class="custom-hero-banner">
+  {%- comment -%} ✅ Desktop Background Image {%- endcomment -%}
+  <div class="hero-image desktop-only" 
+       style="background-image: url('{% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 2000 }}{% else %}https://cdn.shopify.com/s/files/1/0842/9004/4139/files/hero_2000x_6cd5bd2d-7d73-4103-8a02-e1d1ea95b091.webp?v=1784415668{% endif %}'); 
+              height: {{ section.settings.hero_height }}px;">
+    <div class="banner_wrapper page-width position-{{ section.settings.text_position }}">
+      <div class="hero-text-container" 
+           style="background-color: {{ section.settings.text_background_color }}; 
+                  text-align: {{ section.settings.text_align }}; 
+                  color: {{ section.settings.text_color }};">
+        <h1>{{ section.settings.heading }}</h1>
+        <p>{{ section.settings.subheading }}</p>
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link }}" class="hero-button popup-atc">
+            {{ section.settings.button_label }} <span class="btn-icon">
+      {{ 'right-arrow-icon.svg' | inline_asset_content }}</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ✅ Mobile Separate Image {%- endcomment -%}
+  <div class="hero-image-mobile mobile-only">
+    <img src="{% if section.settings.hero_image_mobile != blank %}{{ section.settings.hero_image_mobile | image_url: width: 1000 }}{% else %} https://cdn.shopify.com/s/files/1/0842/9004/4139/files/hero_2000x_6cd5bd2d-7d73-4103-8a02-e1d1ea95b091.webp?v=1784415668 width="100%" height="100%"{% endif %}" alt="Hero banner" />
+    <div class="banner_wrapper position-{{ section.settings.text_position_mobile }}">
+      <div class="hero-text-container mobile-text-container" 
+           style="background-color: {{ section.settings.text_background_color }}; 
+                  text-align: {{ section.settings.text_align }}; 
+                  color: {{ section.settings.text_color }};">
+                  <div class="mobile_container_top">
+        <h1>{{ section.settings.heading }}</h1>
+        <p>{{ section.settings.subheading }}</p>
+        </div>
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link }}" class="hero-button popup-atc">
+            {{ section.settings.button_label }} <span class="btn-icon">
+      {{ 'right-arrow-icon.svg' | inline_asset_content }}</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Custom Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Desktop Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Mobile Banner Image (optional)"
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_position",
+      "label": "Mobile Image Position",
+      "default": "image_top",
+      "options": [
+        { "value": "image_top", "label": "Image on Top" },
+        { "value": "image_bottom", "label": "Image on Bottom" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "Banner Height (Desktop only, px)",
+      "min": 300,
+      "max": 900,
+      "step": 10,
+      "default": 500
+    },
+    {
+      "type": "color",
+      "id": "text_background_color",
+      "label": "Text Container Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text Position (Desktop)",
+      "default": "center",
+      "options": [
+        { "value": "top-left", "label": "Top Left" },
+        { "value": "top-center", "label": "Top Center" },
+        { "value": "top-right", "label": "Top Right" },
+        { "value": "center-left", "label": "Center Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "center-right", "label": "Center Right" },
+        { "value": "bottom-left", "label": "Bottom Left" },
+        { "value": "bottom-center", "label": "Bottom Center" },
+        { "value": "bottom-right", "label": "Bottom Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading Font Size",
+      "min": 14,
+      "max": 60,
+      "step": 1,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Subheading Font Size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero Banner"
+    }
+  ]
+}
+{% endschema %}
