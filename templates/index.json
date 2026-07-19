@@ -109,12 +109,21 @@
         "tablet_font_size": 14,
         "mobile_font_size": 12
       }
+    },
+    "feature_image_hotspot_mk3nND": {
+      "type": "feature-image-hotspot",
+      "name": "Featured Hotspot Grid",
+      "settings": {
+        "title": "Featured collection",
+        "heading_size": "h1"
+      }
     }
   },
   "order": [
     "image_banner",
     "featured_collection",
     "custom_hero_banner_bJXteT",
-    "custom_text_bar_CJtdyh"
+    "custom_text_bar_CJtdyh",
+    "feature_image_hotspot_mk3nND"
   ]
 }
