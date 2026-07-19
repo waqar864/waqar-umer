@@ -79,81 +79,61 @@
 
 {% schema %}
 {
-    "name": "custom text bar",
-    "settings": [
-        {
-  "type": "range",
-  "id": "bar_height",
-  "label": "Bar Height",
-  "min": 30,
-  "max": 150,
-  "step": 2,
-  "unit": "px",
-  "default": 40
-},
-{
-  "type": "range",
-  "id": "padding_top",
-  "label": "Padding Top",
-  "min": 0,
-  "max": 50,
-  "step": 2,
-  "unit": "px",
-  "default": 8
-},
-{
-  "type": "range",
-  "id": "padding_bottom",
-  "label": "Padding Bottom",
-  "min": 0,
-  "max": 50,
-  "step": 2,
-  "unit": "px",
-  "default": 8
-},
-{
-  "type": "range",
-  "id": "padding_horizontal",
-  "label": "Horizontal Padding",
-  "min": 0,
-  "max": 60,
-  "step": 2,
-  "unit": "px",
-  "default": 15
-},
-{
-  "type": "range",
-  "id": "font_weight",
-  "label": "Font Weight",
-  "min": 100,
-  "max": 900,
-  "step": 100,
-  "default": 500
-},
-{
-  "type": "range",
-  "id": "letter_spacing",
-  "label": "Letter Spacing",
-  "min": 0,
-  "max": 10,
-  "step": 0.5,
-  "unit": "px",
-  "default": 0.5
-},
-{
-  "type": "range",
-  "id": "line_height",
-  "label": "Line Height",
-  "min": 1,
-  "max": 2,
-  "step": 0.1, 
-  "default": 1.4
-}      
-],
-"presets": [
+  "name": "Responsive Text Bar",
+  "settings": [
     {
-        "name": "Custom Text Bar"
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "desktop_font_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "tablet_font_size",
+      "min": 10,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Tablet Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Font Size",
+      "default": 12
     }
-]
+  ],
+  "presets": [
+    {
+      "name": "Custom Text Bar"
+    }
+  ]
 }
 {% endschema %}
