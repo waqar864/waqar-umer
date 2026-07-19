@@ -112,9 +112,73 @@
     },
     "feature_image_hotspot_mk3nND": {
       "type": "feature-image-hotspot",
+      "blocks": {
+        "featured_image_fW6XYf": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify://shop_images/young-female-models-denim_925x_44c2cf9e-4030-4347-9d4a-f0e4a1479b4a.jpg",
+            "product": "dark-denim-top",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "featured_image_w7YbaC": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify://shop_images/casual-fashion-woman_925x_56b56608-f207-45c1-b677-bb5aa26c1c7a.jpg",
+            "product": "classic-varsity-top",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "featured_image_UwzNyb": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify://shop_images/leather-jacket-and-tea_925x_2490cde1-7e61-4151-9a65-de8a763bc701.jpg",
+            "product": "classic-leather-jacket",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "featured_image_kRzMYd": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify://shop_images/red-plaid-shirt_925x_70e9e5a8-8fc5-4d60-9a9a-cc2e0dd57cc9.jpg",
+            "product": "chequered-red-shirt",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "featured_image_yEUb3C": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_55a49e12-d54b-488e-b7a0-ea4c201eb01f.jpg",
+            "product": "blue-silk-tuxedo",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "featured_image_QAkU9N": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify://shop_images/black-bag-over-the-shoulder_925x_4cae5708-5e9e-4e7e-96ec-9649f0c20cd8.jpg",
+            "product": "black-leather-bag",
+            "top": 50,
+            "left": 50
+          }
+        }
+      },
+      "block_order": [
+        "featured_image_fW6XYf",
+        "featured_image_w7YbaC",
+        "featured_image_UwzNyb",
+        "featured_image_kRzMYd",
+        "featured_image_yEUb3C",
+        "featured_image_QAkU9N"
+      ],
       "name": "Featured Hotspot Grid",
       "settings": {
-        "title": "Featured collection",
+        "title": "Tisso vison in the wild",
         "heading_size": "h1"
       }
     }
