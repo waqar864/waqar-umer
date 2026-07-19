@@ -208,3 +208,37 @@
     ]
   }
 {% endschema %}
+
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+  const hotspots = document.querySelectorAll(".hotspot");
+   const popup = document.getElementById("productPopup");
+   const popupContent = document.getElementById("popupContent");
+  const popupClose = document.getElementById("popupClose");
+  const overlay = document.getElementById("productPopupOverlay");
+
+  hotspots.forEach(button => {
+    button.addEventListener("click", function () {
+      const handle = this.getAttribute("data-product-handle");
+
+      fetch(`/products/${handle}?view=popup`)
+        .then(res => res.text())
+        .then(html => {
+          popupContent.innerHTML = html;
+          popup.style.display = "block";
+          overlay.style.display = "block";
+          document.body.style.overflow = "hidden"; // stop background scroll
+        });
+    });
+  });
+
+  function closePopup() {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  popupClose.addEventListener("click", closePopup);
+  overlay.addEventListener("click", closePopup);
+ });
+</script>
