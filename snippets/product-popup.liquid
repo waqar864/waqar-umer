@@ -1,3 +1,72 @@
+<div class="popup-product">
+    <div class="popup-top">
+        <div class="popup-lft-img">
+
+            {% if product.featured_image %}
+              <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}" >
+            {% endif %}
+        </div>
+        <div class="popup-rit-content">
+
+            <h3>{{ product.title }}</h3>
+            <p class="popup-price">{{ product.price | money }}</p>
+            <p>{{ product.description | strip_html | truncate: 120 }}</p>
+        </div>
+    </div>
+
+
+ <form method="post" action="/cart/add" class="popup-form">
+  {% for option in product.options_with_values %}
+    {% assign downcased = option.name | downcase %}
+
+    {% if downcased contains 'color' %}
+        
+      <div class="popup-option button_option">
+        <label>{{ option.name }}</label>
+        <div class="popup-color-buttons">
+          {% for value in option.values %}
+          
+            <button 
+              type="button" 
+              class="popup-color-btn" 
+              data-value="{{ value }}"
+              style="
+              text-align: left;
+              padding: 10px 20px;
+              font-size: 16px;
+                border: 1px solid #000;
+                border-left: 5px solid {{ value | downcase }};
+                background-color: #fff;
+                color: #000;
+                cursor: pointer;
+                transition: background-color 0.3s 
+                ease, border-left-color 0.3s ease, color 0.3s ease; "
+              title="{{ value }}">
+              {{ value }}
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+
+    {% elsif downcased contains 'size' %}
+      <div class="popup-option">
+        <label>{{ option.name }}</label>
+        <select name="options[{{ option.name }}]" class="popup-size-select" required>
+            <option value="" disabled selected>Choose your size</option>
+            {% for value in option.values %}
+              <option value="{{ value }}">{{ value }}</option>
+            {% endfor %}
+          </select>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  <input type="hidden" name="id" class="popup-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+  <button type="submit" class="popup-atc">Add to Cart <span class="btn-icon">
+      {{ 'right-arrow-icon.svg' | inline_asset_content }}</span></button>
+    
+</form>
+</div>
 
 <style>
     .popup-top {
@@ -80,93 +149,31 @@ button.popup-atc:hover span.btn-icon svg path {
     margin: 5px 0;
     border: 1px solid #000;
 }
+.popup-color-btn.active {
+    background-color: #000 !important;
+    color: #fff !important;
+}
 </style>
-<div class="popup-product">
-    <div class="popup-top">
-        <div class="popup-lft-img">
-
-            {% if product.featured_image %}
-              <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}" >
-            {% endif %}
-        </div>
-        <div class="popup-rit-content">
-
-            <h3>{{ product.title }}</h3>
-            <p class="popup-price">{{ product.price | money }}</p>
-            <p>{{ product.description | strip_html | truncate: 120 }}</p>
-        </div>
-    </div>
-
-
- <form method="post" action="/cart/add" class="popup-form">
-  {% for option in product.options_with_values %}
-    {% assign downcased = option.name | downcase %}
-
-    {% if downcased contains 'color' %}
-        
-      <div class="popup-option button_option">
-        <label>{{ option.name }}</label>
-        <div class="popup-color-buttons">
-          {% for value in option.values %}
-          
-            <button 
-              type="button" 
-              class="popup-color-btn" 
-              name="options[{{ option.name }}]" 
-              value="{{ value }}"
-              style="
-              text-align: left;
-              padding: 10px 20px;
-              font-size: 16px;
-                border: 1px solid #000;
-                border-left: 5px solid {{ value | downcase }};
-                background-color: #fff;
-                color: #000;
-                cursor: pointer;
-                transition: background-color 0.3s 
-                ease, border-left-color 0.3s ease, color 0.3s ease; "
-              title="{{ value }}">
-              {{ value }}
-            </button>
-          {% endfor %}
-        </div>
-      </div>
-
-    {% elsif downcased contains 'size' %}
-      <div class="popup-option">
-        <label>{{ option.name }}</label>
-        <select name="options[{{ option.name }}]" required>
-            <option value="" disabled selected>Choose your size</option>
-            {% for value in option.values %}
-              <option value="{{ value }}">{{ value }}</option>
-            {% endfor %}
-          </select>
-      </div>
-    {% endif %}
-  {% endfor %}
-
-  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-  <button type="submit" class="popup-atc">Add to Cart <span class="btn-icon">
-      {{ 'right-arrow-icon.svg' | inline_asset_content }}</span></button>
-    
-</form>
-</div>
-
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector(".popup-form");
+// Called explicitly by the parent page right after this HTML is injected
+// into the popup (innerHTML-injected script tags never auto-run, so this
+// cannot rely on DOMContentLoaded / firing on its own).
+window.initPopupProduct = function (container) {
+  const scope = container || document;
+  const form = scope.querySelector(".popup-form");
   if (!form) return;
 
-  const variants = {{ product.variants | json }};
+  const variants = {{ product.variants | json | replace: '</script>', '<\/script>' }};
   const variantField = form.querySelector(".popup-variant-id");
   const colorButtons = form.querySelectorAll(".popup-color-btn");
   const sizeSelect = form.querySelector(".popup-size-select");
+  const submitBtn = form.querySelector(".popup-atc");
 
   let selected = {};
 
   // color buttons
   colorButtons.forEach(btn => {
-    btn.addEventListener("click", function() {
+    btn.addEventListener("click", function () {
       selected['Color'] = this.dataset.value;
       colorButtons.forEach(b => b.classList.remove("active"));
       this.classList.add("active");
@@ -176,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // size dropdown
   if (sizeSelect) {
-    sizeSelect.addEventListener("change", function() {
+    sizeSelect.addEventListener("change", function () {
       selected['Size'] = this.value;
       updateVariant();
     });
@@ -186,7 +193,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const found = variants.find(v => {
       return Object.values(selected).every(val => v.options.includes(val));
     });
-    variantField.value = found ? found.id : "";
+
+    if (found) {
+      variantField.value = found.id;
+      if (submitBtn) submitBtn.disabled = !found.available;
+    } else {
+      variantField.value = "";
+      if (submitBtn) submitBtn.disabled = true;
+    }
   }
-});
+
+  // If there's only one option type total (e.g. just Color, no Size),
+  // nothing needs to be pre-selected; the form still requires a click
+  // before Add to Cart works whenever more than the default variant exists.
+  if (colorButtons.length || sizeSelect) {
+    if (submitBtn) submitBtn.disabled = true;
+    variantField.value = "";
+  }
+};
 </script>
