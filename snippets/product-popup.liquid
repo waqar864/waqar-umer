@@ -155,9 +155,7 @@ button.popup-atc:hover span.btn-icon svg path {
 }
 </style>
 <script>
-// Called explicitly by the parent page right after this HTML is injected
-// into the popup (innerHTML-injected script tags never auto-run, so this
-// cannot rely on DOMContentLoaded / firing on its own).
+
 window.initPopupProduct = function (container) {
   const scope = container || document;
   const form = scope.querySelector(".popup-form");
@@ -203,9 +201,6 @@ window.initPopupProduct = function (container) {
     }
   }
 
-  // If there's only one option type total (e.g. just Color, no Size),
-  // nothing needs to be pre-selected; the form still requires a click
-  // before Add to Cart works whenever more than the default variant exists.
   if (colorButtons.length || sizeSelect) {
     if (submitBtn) submitBtn.disabled = true;
     variantField.value = "";

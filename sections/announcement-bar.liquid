@@ -18,10 +18,100 @@
   {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 {% endif %}
 
+{%- liquid
+  assign show_gift_logo = false
+  assign show_gift_cta = false
+  if section.settings.show_utility_logo and section.settings.utility_logo_text != blank
+    assign show_gift_logo = true
+  endif
+  if section.settings.show_utility_button and section.settings.utility_button_label != blank
+    assign show_gift_cta = true
+  endif
+-%}
+
+{% style %}
+  .utility-bar-{{ section.id }} .utility-bar__grid--gift {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .utility-bar-{{ section.id }} .utility-bar__logo {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-size: 1.4rem;
+  }
+
+  .utility-bar-{{ section.id }} .utility-bar__logo a {
+    color: currentColor;
+    text-decoration: none;
+  }
+
+  .utility-bar-{{ section.id }} .utility-bar__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.6rem;
+    border-radius: 999px;
+    background-color: {{ section.settings.utility_button_bg }};
+    color: {{ section.settings.utility_button_text_color }};
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  }
+
+  .utility-bar-{{ section.id }} .utility-bar__cta .icon-arrow,
+  .utility-bar-{{ section.id }} .utility-bar__cta svg {
+    width: 1.4rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .utility-bar-{{ section.id }} .utility-bar__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+    filter: brightness(0.96);
+  }
+
+  .utility-bar-{{ section.id }} .utility-bar__cta:hover .icon-arrow,
+  .utility-bar-{{ section.id }} .utility-bar__cta:hover svg {
+    transform: translateX(5px);
+  }
+
+  .utility-bar-{{ section.id }} .utility-bar__cta:focus-visible {
+    outline: 2px solid {{ section.settings.utility_button_text_color }};
+    outline-offset: 2px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .utility-bar-{{ section.id }} .utility-bar__logo,
+    .utility-bar-{{ section.id }} .utility-bar__cta {
+      display: none;
+    }
+  }
+{% endstyle %}
+
 <div
-  class="utility-bar color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator and section.blocks.size > 0 %} utility-bar--bottom-border{% elsif section.settings.show_line_separator and section.settings.show_social and social_icons%} utility-bar--bottom-border-social-only{% endif %}{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header-localization{% endif %}"
+  class="utility-bar utility-bar-{{ section.id }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator and section.blocks.size > 0 %} utility-bar--bottom-border{% elsif section.settings.show_line_separator and section.settings.show_social and social_icons%} utility-bar--bottom-border-social-only{% endif %}{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header-localization{% endif %}"
 >
-  <div class="page-width utility-bar__grid{% if announcement_bar and language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--3-col{% elsif language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--2-col{% endif %}">
+  <div class="page-width utility-bar__grid{% if show_gift_logo or show_gift_cta %} utility-bar__grid--gift{% elsif announcement_bar and language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--3-col{% elsif language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--2-col{% endif %}">
+    {%- if show_gift_logo -%}
+      <div class="utility-bar__logo small-hide">
+        {%- if section.settings.utility_logo_link != blank -%}
+          <a href="{{ section.settings.utility_logo_link }}">{{ section.settings.utility_logo_text | escape }}</a>
+        {%- else -%}
+          <span>{{ section.settings.utility_logo_text | escape }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
     {%- if section.settings.show_social and social_icons -%}
       {%- render 'social-icons' -%}
     {%- endif -%}
@@ -136,6 +226,15 @@
         </style>
       {%- endif -%}
     {%- endif -%}
+    {%- if show_gift_cta -%}
+      <a
+        href="{{ section.settings.utility_button_link | default: '#' }}"
+        class="utility-bar__cta small-hide link link--text animate-arrow"
+      >
+        <span>{{ section.settings.utility_button_label | escape }}</span>
+        {{- 'icon-arrow.svg' | inline_asset_content -}}
+      </a>
+    {%- endif -%}
     <div class="localization-wrapper">
       {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
         <localization-form class="small-hide medium-hide">
@@ -227,6 +326,60 @@
       "default": false,
       "label": "t:sections.announcement-bar.settings.enable_language_selector.label",
       "info": "t:sections.announcement-bar.settings.enable_language_selector.info"
+    },
+    {
+      "type": "header",
+      "content": "Logo text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_utility_logo",
+      "label": "Show logo text",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "utility_logo_text",
+      "label": "Logo text",
+      "default": "Tisso Vison"
+    },
+    {
+      "type": "url",
+      "id": "utility_logo_link",
+      "label": "Logo link (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Gift button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_utility_button",
+      "label": "Show button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "utility_button_label",
+      "label": "Button label",
+      "default": "Choose Gift"
+    },
+    {
+      "type": "url",
+      "id": "utility_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "utility_button_bg",
+      "label": "Button background color",
+      "default": "#F5CB43"
+    },
+    {
+      "type": "color",
+      "id": "utility_button_text_color",
+      "label": "Button text color",
+      "default": "#1A1A1A"
     }
   ],
   "blocks": [
