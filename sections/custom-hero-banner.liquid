@@ -151,9 +151,10 @@ span.btn-icon {
         <h1>{{ section.settings.heading }}</h1>
         <p>{{ section.settings.subheading }}</p>
         {% if section.settings.button_label != blank %}
-          <a href="{{ section.settings.button_link }}" class="hero-button popup-atc">
+          <a href="{{ section.settings.button_link }}" class="hero-button popup-atc animate-arrow">
             {{ section.settings.button_label }} <span class="btn-icon">
-      {{ 'right-arrow-icon.svg' | inline_asset_content }}</span>
+               {{- 'icon-arrow.svg' | inline_asset_content -}}
+      {% comment %} {{ 'right-arrow-icon.svg' | inline_asset_content }}</span> {% endcomment %}
           </a>
         {% endif %}
       </div>
