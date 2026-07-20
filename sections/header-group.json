@@ -35,7 +35,7 @@
         "enable_language_selector": false,
         "show_utility_logo": true,
         "utility_logo_text": "Tisso Vison",
-        "utility_logo_link": "shopify://collections/frontpage",
+        "utility_logo_link": "https://waqar-umer-48-teststore.myshopify.com",
         "show_utility_button": true,
         "utility_button_label": "Choose Gift",
         "utility_button_link": "",
