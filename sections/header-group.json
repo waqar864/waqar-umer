@@ -32,7 +32,15 @@
         "show_line_separator": true,
         "show_social": false,
         "enable_country_selector": false,
-        "enable_language_selector": false
+        "enable_language_selector": false,
+        "show_utility_logo": true,
+        "utility_logo_text": "Tisso Vison",
+        "utility_logo_link": "",
+        "show_utility_button": true,
+        "utility_button_label": "Choose Gift",
+        "utility_button_link": "",
+        "utility_button_bg": "#FFF544",
+        "utility_button_text_color": "#1a1a1a"
       }
     },
     "header": {
